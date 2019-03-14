@@ -22,6 +22,14 @@ class App extends Component {
             currency: e.target.value
         });
     };
+    
+    onCurrencyBlur = e => {
+        const value = e.target.value;
+        const resVal = toFixedTrunc(value, 2);
+        this.setState({
+            currency: resVal
+        });
+    };
 
     onClickCalculate = money => {
         const arrMoneyCurrency = [
@@ -98,7 +106,7 @@ class App extends Component {
 
         let strResponse = "Your change is ";
 
-        if (strResponse.length > 1) {
+        if (arrResponse.length > 1) {
             arrResponse.forEach((item, index) => {
                 if (index + 1 == arrResponse.length) {
                     const strEnd = `and ${item}.`;
@@ -108,7 +116,7 @@ class App extends Component {
                     strResponse = strResponse.concat(strBill);
                 }
             });
-        } else if (strResponse.length == 1) {
+        } else if (arrResponse.length == 1) {
             const strOne = `${arrResponse[0]}.`;
             strResponse = strResponse.concat(strOne);
         } else {
@@ -122,7 +130,8 @@ class App extends Component {
             <div className="App">
                 <input
                     value={this.state.currency}
-                    onChange={this.onCurrencyChange}
+                    onChange={e => this.onCurrencyChange(e)}
+                    onBlur={e => this.onCurrencyBlur(e)}
                     type="number"
                     min="0.00"
                     step="0.01"
